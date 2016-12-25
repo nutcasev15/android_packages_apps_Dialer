@@ -279,8 +279,7 @@ public class ProximitySensor implements AccelerometerListener.OrientationListene
                     CMSettings.System.getInt(mContext.getContentResolver(),
                             CMSettings.System.PROXIMITY_ON_WAKE, mProximityWakeDefault) == 1;
 
-            if ((mIsPhoneOffhook || (mHasIncomingCall && proximityOnWake))
-                    && !screenOnImmediately) {
+            if ((mIsPhoneOffhook) && !screenOnImmediately) {
                 Log.d(this, "Turning on proximity sensor");
                 // Phone is idle.  We don't want any special proximity sensor
                 // behavior in this case.
