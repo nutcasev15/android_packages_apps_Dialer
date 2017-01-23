@@ -471,7 +471,7 @@ public class QtiCallUtils {
         String config = SystemProperties.get(TelephonyProperties.PROPERTY_MULTI_SIM_CONFIG);
         IExtTelephony extTelephony = getIExtTelephony();
         if (extTelephony == null) {
-            dsdaEnabled = config.equals("dsda");
+            dsdaEnabled = false;
         } else {
             try {
                 dsdaEnabled = extTelephony.isDsdaEnabled();
