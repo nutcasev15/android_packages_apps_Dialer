@@ -151,6 +151,6 @@
 
     <dimen name="contact_context_small_photo_size">40dp</dimen>
 
-    <!-- Dimensions for DSDA switch tab -->
-    <dimen name="dsda_sub_text_marginTop">1dp</dimen>
+    <!-- Make DSDA cleaner -->
+    <dimen name="dsda_margintop">1dp</dimen>
 </resources>
