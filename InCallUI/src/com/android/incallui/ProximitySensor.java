@@ -120,6 +120,8 @@ public class ProximitySensor implements AccelerometerListener.OrientationListene
         boolean hasOngoingCall = InCallState.INCALL == newState && callList.hasLiveCall();
         boolean isOffhook = (InCallState.OUTGOING == newState) || hasOngoingCall;
         mHasIncomingCall = (InCallState.INCOMING == newState);
+        final boolean proximityOnWake = (mProximityWakeSupported && CMSettings.System.getInt(mContext.getContentResolver(),
+                                    CMSettings.System.PROXIMITY_ON_WAKE, mProximityWakeDefault) == 1);
 
         if (isOffhook != mIsPhoneOffhook) {
             mIsPhoneOffhook = isOffhook;
@@ -130,7 +132,8 @@ public class ProximitySensor implements AccelerometerListener.OrientationListene
             updateProximitySensorMode();
         }
 
-        if (mHasIncomingCall) {
+        if (mHasIncomingCall && proximityOnWake) {
+            turnOnProximitySensor();
             updateProximitySensorMode();
         }
     }
@@ -279,7 +282,7 @@ public class ProximitySensor implements AccelerometerListener.OrientationListene
                     CMSettings.System.getInt(mContext.getContentResolver(),
                             CMSettings.System.PROXIMITY_ON_WAKE, mProximityWakeDefault) == 1;
 
-            if ((mIsPhoneOffhook) && !screenOnImmediately) {
+            if ((mIsPhoneOffhook || proximityOnWake) && !screenOnImmediately && !mHasIncomingCall) {
                 Log.d(this, "Turning on proximity sensor");
                 // Phone is idle.  We don't want any special proximity sensor
                 // behavior in this case.
